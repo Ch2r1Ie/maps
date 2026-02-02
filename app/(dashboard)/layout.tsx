@@ -10,7 +10,7 @@ export default function DashboardLayout({
 }) {
   return (
     <SidebarProvider>
-      <LocationsSidebar />
+      <LocationsSidebar variant="floating" />
       <SidebarInset className="overflow-hidden">{children}</SidebarInset>
     </SidebarProvider>
   );

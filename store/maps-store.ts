@@ -1,8 +1,18 @@
+import {
+  locations as initialLocations,
+  type Location,
+} from "@/mock-data/locations";
 import { create } from "zustand";
-import { locations as initialLocations, type Location } from "@/mock-data/locations";
 
 type ViewMode = "map" | "list" | "split";
-type SortBy = "date-newest" | "date-oldest" | "alpha-az" | "alpha-za" | "rating" | "visits" | "nearest";
+type SortBy =
+  | "date-newest"
+  | "date-oldest"
+  | "alpha-az"
+  | "alpha-za"
+  | "rating"
+  | "visits"
+  | "nearest";
 type MapStyle = "default" | "streets" | "outdoors" | "satellite";
 
 function calculateDistance(
@@ -79,8 +89,14 @@ export const useMapsStore = create<MapsState>((set, get) => ({
     const newState: Partial<MapsState> = { selectedCategory: categoryId };
 
     if (state.selectedLocationId) {
-      const location = state.locations.find((l) => l.id === state.selectedLocationId);
-      if (location && categoryId !== "all" && location.categoryId !== categoryId) {
+      const location = state.locations.find(
+        (l) => l.id === state.selectedLocationId
+      );
+      if (
+        location &&
+        categoryId !== "all" &&
+        location.categoryId !== categoryId
+      ) {
         newState.selectedLocationId = null;
         newState.routeDestinationId = null;
       }
@@ -144,7 +160,9 @@ export const useMapsStore = create<MapsState>((set, get) => ({
     let filtered = [...state.locations];
 
     if (state.selectedCategory !== "all") {
-      filtered = filtered.filter((l) => l.categoryId === state.selectedCategory);
+      filtered = filtered.filter(
+        (l) => l.categoryId === state.selectedCategory
+      );
     }
 
     if (state.selectedTags.length > 0) {
@@ -184,10 +202,16 @@ export const useMapsStore = create<MapsState>((set, get) => ({
         }
         break;
       case "date-newest":
-        filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        filtered.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
         break;
       case "date-oldest":
-        filtered.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        filtered.sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
         break;
       case "alpha-az":
         filtered.sort((a, b) => a.name.localeCompare(b.name));
@@ -211,7 +235,9 @@ export const useMapsStore = create<MapsState>((set, get) => ({
     let filtered = state.locations.filter((l) => l.isFavorite);
 
     if (state.selectedCategory !== "all") {
-      filtered = filtered.filter((l) => l.categoryId === state.selectedCategory);
+      filtered = filtered.filter(
+        (l) => l.categoryId === state.selectedCategory
+      );
     }
 
     if (state.searchQuery) {
@@ -224,7 +250,10 @@ export const useMapsStore = create<MapsState>((set, get) => ({
       );
     }
 
-    filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    filtered.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
 
     return filtered;
   },
@@ -234,7 +263,9 @@ export const useMapsStore = create<MapsState>((set, get) => ({
     let filtered = [...state.locations];
 
     if (state.selectedCategory !== "all") {
-      filtered = filtered.filter((l) => l.categoryId === state.selectedCategory);
+      filtered = filtered.filter(
+        (l) => l.categoryId === state.selectedCategory
+      );
     }
 
     if (state.searchQuery) {
@@ -247,7 +278,10 @@ export const useMapsStore = create<MapsState>((set, get) => ({
       );
     }
 
-    filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    filtered.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
 
     return filtered.slice(0, 20);
   },

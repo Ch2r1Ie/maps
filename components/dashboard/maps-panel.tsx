@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import {
   tags as allTags,
@@ -39,6 +38,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import * as React from "react";
 import { useMediaQuery } from "usehooks-ts";
+import { Badge } from "../ui/badge";
 
 type PanelMode = "all" | "favorites" | "recents";
 
@@ -125,6 +125,7 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
     isPanelVisible,
     setPanelVisible,
   } = useMapsStore();
+  const { state: sidebarState, isMobile } = useSidebar();
 
   const isDesktop = useMediaQuery("(min-width: 640px)");
 
@@ -307,7 +308,12 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
       <Button
         variant="outline"
         size="icon"
-        className="absolute left-4 top-4 z-20 sm:hidden size-10 bg-background! shadow-xl"
+        className={cn(
+          "absolute top-4 z-20 sm:hidden size-10 bg-background! shadow-xl",
+          !isMobile && sidebarState === "expanded"
+            ? "left-[calc(var(--sidebar-width)_-_2.5rem)]"
+            : "left-4"
+        )}
         onClick={() => setPanelVisible(true)}
       >
         <HugeiconsIcon icon={Location01Icon} className="size-5" />
@@ -316,7 +322,14 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
   }
 
   return (
-    <div className="absolute left-4 top-4 bottom-4 z-20 flex flex-col bg-background rounded-xl shadow-xl border overflow-hidden w-80 sm:w-[400px]">
+    <div
+      className={cn(
+        "absolute top-4 bottom-4 z-20 flex flex-col bg-background rounded-xl shadow-xl border overflow-hidden w-80 sm:w-[400px] transition-[left] duration-200 ease-in-out",
+        !isMobile && sidebarState === "expanded"
+          ? "left-[calc(var(--sidebar-width)_+_0.1rem)]"
+          : "left-4"
+      )}
+    >
       <div className="p-3 border-b flex items-center justify-between">
         <div className="">
           <h2 className="font-semibold flex items-center gap-2">
