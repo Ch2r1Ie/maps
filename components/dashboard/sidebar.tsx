@@ -1,5 +1,7 @@
 "use client";
 
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +13,7 @@ import {
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -20,7 +23,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { categories } from "@/mock-data/locations";
+import { categories, mockUser } from "@/mock-data/locations";
 import { useMapsStore } from "@/store/maps-store";
 import {
   BedIcon,
@@ -39,6 +42,7 @@ import {
   UnfoldMoreIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -95,16 +99,17 @@ export function LocationsSidebar({
                 </div>
                 <div className="flex items-center gap-1 group-data-[collapsible=icon]:hidden">
                   <span className="text-sm font-medium">Square UI - Maps</span>
-                  <HugeiconsIcon
+                  {/* <HugeiconsIcon
                     icon={UnfoldMoreIcon}
                     className="size-3 text-muted-foreground"
-                  />
+                  /> */}
                 </div>
               </button>
             }
           />
+
           <DropdownMenuContent align="start" className="w-56">
-            <DropdownMenuGroup>
+            {/* <DropdownMenuGroup>
               <DropdownMenuItem>
                 <HugeiconsIcon icon={Settings01Icon} className="size-4" />
                 <span>Settings</span>
@@ -116,7 +121,7 @@ export function LocationsSidebar({
                 <HugeiconsIcon icon={Logout01Icon} className="size-4" />
                 <span>Log out</span>
               </DropdownMenuItem>
-            </DropdownMenuGroup>
+            </DropdownMenuGroup> */}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarHeader>
@@ -198,56 +203,62 @@ export function LocationsSidebar({
         </SidebarGroup>
       </SidebarContent>
 
-      {/* <SidebarFooter className="px-2.5 pb-3">
-        <div className="group-data-[collapsible=icon]:hidden space-y-3">
-          <div className="text-center text-[11px] text-muted-foreground">
-            Map powered by{" "}
-            <Link
-              href="https://mapcn.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-foreground transition-colors"
+      <SidebarFooter>
+        <Button variant="outline">Upgrade Plan</Button>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <SidebarMenuButton
+              size="lg"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              mapcn
-            </Link>{" "}
-            by{" "}
-            <Link
-              href="https://x.com/sainianmol16"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-foreground transition-colors"
-            >
-              @sainianmol16
-            </Link>
-          </div>
-          <div className="group/sidebar relative flex flex-col gap-2 rounded-lg border p-4 text-sm w-full bg-background">
-            <div className="text-balance text-lg font-semibold leading-tight group-hover/sidebar:underline">
-              Open-source layouts by lndev-ui
-            </div>
-            <div className="text-muted-foreground text-xs">
-              Collection of beautifully crafted open-source layouts UI built
-              with shadcn/ui.
-            </div>
-            <Link
-              target="_blank"
-              rel="noreferrer"
-              className="absolute inset-0"
-              href="https://square.lndev.me"
-            >
-              <span className="sr-only">Square by lndev-ui</span>
-            </Link>
-            <Button size="sm" className="w-full" asChild>
-              <Link
-                href="https://square.lndev.me"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                square.lndev.me
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </SidebarFooter> */}
+              <Avatar className="h-8 w-8 rounded-lg">
+                {mockUser.image ? (
+                  <Image
+                    src={mockUser.image}
+                    alt={mockUser.name}
+                    width={32}
+                    height={32}
+                    className="rounded-lg"
+                  />
+                ) : (
+                  <AvatarFallback className="rounded-lg">
+                    {mockUser.name.charAt(0)}
+                  </AvatarFallback>
+                )}
+              </Avatar>
+
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-medium">{mockUser.name}</span>
+                <span className="truncate text-xs">{mockUser.email}</span>
+              </div>
+
+              <HugeiconsIcon
+                icon={UnfoldMoreIcon}
+                className="size-3 text-muted-foreground"
+              />
+            </SidebarMenuButton>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent align="start" className="w-56">
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <HugeiconsIcon icon={Settings01Icon} className="size-4" />
+                <span>Settings</span>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuGroup>
+              <DropdownMenuItem className="text-destructive focus:text-destructive">
+                <HugeiconsIcon icon={Logout01Icon} className="size-4" />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 }

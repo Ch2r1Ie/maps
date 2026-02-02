@@ -1,30 +1,28 @@
 "use client";
 
-import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { useMapsStore } from "@/store/maps-store";
 import { cn } from "@/lib/utils";
-import { HugeiconsIcon } from "@hugeicons/react";
+import { useMapsStore } from "@/store/maps-store";
 import {
   Add01Icon,
-  MinusSignIcon,
-  Location01Icon,
   Compass01Icon,
   Layers01Icon,
+  Location01Icon,
   MapsIcon,
+  MinusSignIcon,
   MountainIcon,
   SatelliteIcon,
   StarCircleIcon,
-  GithubIcon,
 } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 const mapStyles = [
   {
@@ -33,7 +31,12 @@ const mapStyles = [
     icon: StarCircleIcon,
     description: "Follows theme",
   },
-  { id: "streets", name: "Streets", icon: MapsIcon, description: "Detailed roads" },
+  {
+    id: "streets",
+    name: "Streets",
+    icon: MapsIcon,
+    description: "Detailed roads",
+  },
   {
     id: "outdoors",
     name: "Outdoors",
@@ -155,9 +158,15 @@ export function MapControls() {
                   <DropdownMenuItem
                     key={style.id}
                     onClick={() => setMapStyle(style.id)}
-                    className={cn("gap-3", mapStyle === style.id && "bg-accent")}
+                    className={cn(
+                      "gap-3",
+                      mapStyle === style.id && "bg-accent"
+                    )}
                   >
-                    <HugeiconsIcon icon={style.icon} className="size-4 shrink-0" />
+                    <HugeiconsIcon
+                      icon={style.icon}
+                      className="size-4 shrink-0"
+                    />
                     <div className="flex flex-col">
                       <span className="font-medium">{style.name}</span>
                       <span className="text-xs text-muted-foreground">
@@ -176,15 +185,7 @@ export function MapControls() {
           size="icon"
           className="bg-background! size-11 shadow-lg"
           asChild
-        >
-          <Link
-            href="https://github.com/ln-dev7/square-ui/tree/master/templates-baseui/maps"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <HugeiconsIcon icon={GithubIcon} className="size-4" />
-          </Link>
-        </Button>
+        ></Button>
       </div>
 
       <div className="absolute bottom-4 right-4 z-10 flex flex-col gap-2">
