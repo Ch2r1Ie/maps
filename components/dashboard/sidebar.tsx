@@ -1,11 +1,16 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -15,38 +20,36 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuGroup,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { useMapsStore } from "@/store/maps-store";
 import { categories } from "@/mock-data/locations";
-import { HugeiconsIcon } from "@hugeicons/react";
+import { useMapsStore } from "@/store/maps-store";
 import {
-  Location01Icon,
-  FavouriteIcon,
+  BedIcon,
+  Building01Icon,
   Clock01Icon,
-  Settings01Icon,
-  UnfoldMoreIcon,
-  Logout01Icon,
-  Restaurant01Icon,
   Coffee01Icon,
   DrinkIcon,
-  Tree01Icon,
-  Building01Icon,
-  ShoppingBag01Icon,
-  BedIcon,
   Dumbbell01Icon,
+  FavouriteIcon,
+  Location01Icon,
+  Logout01Icon,
+  Restaurant01Icon,
+  Settings01Icon,
+  ShoppingBag01Icon,
+  Tree01Icon,
+  UnfoldMoreIcon,
 } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navItems = [
   { id: "all", title: "All Locations", icon: Location01Icon, href: "/" },
-  { id: "favorites", title: "Favorites", icon: FavouriteIcon, href: "/favorites" },
+  {
+    id: "favorites",
+    title: "Favorites",
+    icon: FavouriteIcon,
+    href: "/favorites",
+  },
   { id: "recents", title: "Recents", icon: Clock01Icon, href: "/recents" },
 ];
 
@@ -195,7 +198,7 @@ export function LocationsSidebar({
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="px-2.5 pb-3">
+      {/* <SidebarFooter className="px-2.5 pb-3">
         <div className="group-data-[collapsible=icon]:hidden space-y-3">
           <div className="text-center text-[11px] text-muted-foreground">
             Map powered by{" "}
@@ -244,7 +247,7 @@ export function LocationsSidebar({
             </Button>
           </div>
         </div>
-      </SidebarFooter>
+      </SidebarFooter> */}
     </Sidebar>
   );
 }

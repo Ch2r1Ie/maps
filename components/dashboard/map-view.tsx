@@ -1,26 +1,25 @@
 "use client";
 
-import * as React from "react";
-import maplibregl from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
-import { useTheme } from "next-themes";
+import { tags as allTags, categories } from "@/mock-data/locations";
 import { useMapsStore } from "@/store/maps-store";
-import { categories, tags as allTags } from "@/mock-data/locations";
+import mapboxgl from "mapbox-gl";
+import { useTheme } from "next-themes";
+import * as React from "react";
 
 const MAP_STYLES = {
-  light: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
-  dark: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-  streets: "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
-  outdoors: "https://tiles.stadiamaps.com/styles/outdoors.json",
-  satellite: "https://tiles.stadiamaps.com/styles/alidade_satellite.json",
+  streets: "mapbox://styles/mapbox/streets-v12",
+  outdoors: "mapbox://styles/mapbox/outdoors-v12",
+  satellite: "mapbox://styles/mapbox/satellite-streets-v12",
 };
 
 export function MapView() {
+  mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
+
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const mapRef = React.useRef<maplibregl.Map | null>(null);
-  const markersRef = React.useRef<Map<string, maplibregl.Marker>>(new Map());
-  const userMarkerRef = React.useRef<maplibregl.Marker | null>(null);
-  const popupRef = React.useRef<maplibregl.Popup | null>(null);
+  const mapRef = React.useRef<mapboxgl.Map | null>(null);
+  const markersRef = React.useRef<Map<string, mapboxgl.Marker>>(new Map());
+  const userMarkerRef = React.useRef<mapboxgl.Marker | null>(null);
+  const popupRef = React.useRef<mapboxgl.Popup | null>(null);
   const isAnimatingRef = React.useRef(false);
   const closeTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
   const isHoveringPopupRef = React.useRef(false);
@@ -43,7 +42,7 @@ export function MapView() {
 
   const getMapStyleUrl = React.useCallback(() => {
     if (mapStyle === "default") {
-      return resolvedTheme === "dark" ? MAP_STYLES.dark : MAP_STYLES.light;
+      return MAP_STYLES.streets;
     }
     return MAP_STYLES[mapStyle];
   }, [mapStyle, resolvedTheme]);
@@ -113,7 +112,7 @@ export function MapView() {
   React.useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
-    const map = new maplibregl.Map({
+    const map = new mapboxgl.Map({
       container: containerRef.current,
       style: getMapStyleUrl(),
       center: [mapCenter.lng, mapCenter.lat],
@@ -124,7 +123,7 @@ export function MapView() {
     });
 
     map.addControl(
-      new maplibregl.AttributionControl({ compact: true }),
+      new mapboxgl.AttributionControl({ compact: true }),
       "bottom-right"
     );
 
@@ -172,7 +171,7 @@ export function MapView() {
       </div>
     `;
 
-    const marker = new maplibregl.Marker({ element: el })
+    const marker = new mapboxgl.Marker({ element: el })
       .setLngLat([userLocation.lng, userLocation.lat])
       .addTo(mapRef.current);
 
@@ -288,12 +287,14 @@ export function MapView() {
                   ? '<span class="popup-favorite">❤️ Favorite</span>'
                   : "<span></span>"
               }
-              <span class="popup-date">Added ${formatDate(location.createdAt)}</span>
+              <span class="popup-date">Added ${formatDate(
+                location.createdAt
+              )}</span>
             </div>
           </div>
         `;
 
-        const popup = new maplibregl.Popup({
+        const popup = new mapboxgl.Popup({
           offset: [0, -35],
           closeButton: false,
           closeOnClick: false,
@@ -330,17 +331,23 @@ export function MapView() {
         closePopup();
       });
 
-      const marker = new maplibregl.Marker({ element: el })
+      const marker = new mapboxgl.Marker({ element: el })
         .setLngLat([location.coordinates.lng, location.coordinates.lat])
         .addTo(mapRef.current!);
 
       markersRef.current.set(location.id, marker);
     });
-  }, [locations, selectedLocationId, selectLocation, closePopup, routeDestinationId]);
+  }, [
+    locations,
+    selectedLocationId,
+    selectLocation,
+    closePopup,
+    routeDestinationId,
+  ]);
 
   const routeDataRef = React.useRef<{
     coordinates: [number, number][];
-    bounds: maplibregl.LngLatBounds;
+    bounds: mapboxgl.LngLatBounds;
   } | null>(null);
 
   React.useEffect(() => {
@@ -366,10 +373,16 @@ export function MapView() {
         const data = await response.json();
 
         if (data.routes && data.routes[0]) {
-          const coordinates = data.routes[0].geometry.coordinates as [number, number][];
-          const bounds = new maplibregl.LngLatBounds();
+          const coordinates = data.routes[0].geometry.coordinates as [
+            number,
+            number
+          ][];
+          const bounds = new mapboxgl.LngLatBounds();
           bounds.extend([userLocation.lng, userLocation.lat]);
-          bounds.extend([destination.coordinates.lng, destination.coordinates.lat]);
+          bounds.extend([
+            destination.coordinates.lng,
+            destination.coordinates.lat,
+          ]);
           coordinates.forEach((coord) => bounds.extend(coord));
 
           routeDataRef.current = { coordinates, bounds };
@@ -389,53 +402,57 @@ export function MapView() {
     fetchRoute();
   }, [routeDestinationId, userLocation, allLocations]);
 
-  const drawRoute = React.useCallback((map: maplibregl.Map, coordinates: [number, number][]) => {
-    if (map.getLayer("route-line")) map.removeLayer("route-line");
-    if (map.getLayer("route-line-outline")) map.removeLayer("route-line-outline");
-    if (map.getSource("route")) map.removeSource("route");
+  const drawRoute = React.useCallback(
+    (map: mapboxgl.Map, coordinates: [number, number][]) => {
+      if (map.getLayer("route-line")) map.removeLayer("route-line");
+      if (map.getLayer("route-line-outline"))
+        map.removeLayer("route-line-outline");
+      if (map.getSource("route")) map.removeSource("route");
 
-    map.addSource("route", {
-      type: "geojson",
-      data: {
-        type: "Feature",
-        properties: {},
-        geometry: {
-          type: "LineString",
-          coordinates,
+      map.addSource("route", {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "LineString",
+            coordinates,
+          },
         },
-      },
-    });
+      });
 
-    map.addLayer({
-      id: "route-line-outline",
-      type: "line",
-      source: "route",
-      layout: {
-        "line-join": "round",
-        "line-cap": "round",
-      },
-      paint: {
-        "line-color": "#1d4ed8",
-        "line-width": 8,
-        "line-opacity": 0.4,
-      },
-    });
+      map.addLayer({
+        id: "route-line-outline",
+        type: "line",
+        source: "route",
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "#1d4ed8",
+          "line-width": 8,
+          "line-opacity": 0.4,
+        },
+      });
 
-    map.addLayer({
-      id: "route-line",
-      type: "line",
-      source: "route",
-      layout: {
-        "line-join": "round",
-        "line-cap": "round",
-      },
-      paint: {
-        "line-color": "#3b82f6",
-        "line-width": 4,
-        "line-opacity": 1,
-      },
-    });
-  }, []);
+      map.addLayer({
+        id: "route-line",
+        type: "line",
+        source: "route",
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "#3b82f6",
+          "line-width": 4,
+          "line-opacity": 1,
+        },
+      });
+    },
+    []
+  );
 
   React.useEffect(() => {
     const map = mapRef.current;
@@ -443,7 +460,8 @@ export function MapView() {
 
     const clearRoute = () => {
       if (map.getLayer("route-line")) map.removeLayer("route-line");
-      if (map.getLayer("route-line-outline")) map.removeLayer("route-line-outline");
+      if (map.getLayer("route-line-outline"))
+        map.removeLayer("route-line-outline");
       if (map.getSource("route")) map.removeSource("route");
     };
 
