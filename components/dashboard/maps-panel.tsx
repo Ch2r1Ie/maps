@@ -330,7 +330,7 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
           : "left-4"
       )}
     >
-      <div className="p-3 border-b flex items-center justify-between">
+      <div className="p-3 border-b flex items-center justify-between ">
         <div className="">
           <h2 className="font-semibold flex items-center gap-2">
             {mode === "recents" && (
@@ -355,7 +355,7 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
         </div>
       </div>
 
-      <div className="p-2 border-b">
+      <div className="p-2 border-b ">
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
             <HugeiconsIcon
@@ -391,7 +391,7 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
                 </Button>
               }
             />
-            <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuContent align="end" className="w-48 ">
               <DropdownMenuGroup>
                 <DropdownMenuItem
                   onClick={() => setSortBy("nearest")}
@@ -469,17 +469,17 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
         </div>
       </div>
 
-      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto">
-        <div className="p-2 space-y-2">
+      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto ">
+        <div className="p-2 space-y-2 ">
           {locations.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
+            <div className="flex flex-col items-center justify-center py-12 text-center ">
               <HugeiconsIcon
                 icon={EmptyIcon}
                 className="size-8 text-muted-foreground mb-2"
               />
               <p className="text-sm font-medium">{config.emptyTitle}</p>
               {config.emptyDescription && (
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs text-muted-foreground mt-1 ">
                   {config.emptyDescription}
                 </p>
               )}
@@ -497,13 +497,13 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
                   <div
                     key={location.id}
                     className={cn(
-                      "flex flex-col rounded-lg border-2 overflow-hidden",
+                      "flex flex-col rounded-lg border-2 overflow-hidden ",
                       isRouteActive
                         ? "border-green-500 bg-green-500/10"
                         : "border-primary bg-accent/30"
                     )}
                   >
-                    <div className="p-4">
+                    <div className="p-4 ">
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex items-start gap-3">
                           <div
@@ -528,7 +528,7 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
                                 />
                               )}
                             </div>
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-sm text-muted-foreground ">
                               {category?.name}
                             </p>
                           </div>
@@ -667,7 +667,7 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
                 <div
                   key={location.id}
                   className={cn(
-                    "group flex flex-col gap-2 rounded-lg border p-3 cursor-pointer transition-colors hover:bg-accent/50",
+                    "group flex flex-col gap-2 rounded-lg border p-3 cursor-pointer transition-colors hover:bg-accent/50 ",
                     routeDestinationId === location.id &&
                       "border-green-500 bg-green-500/10"
                   )}

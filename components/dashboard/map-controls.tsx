@@ -99,7 +99,6 @@ export function MapControls() {
   const handleLocate = async () => {
     if (userLocation) {
       setMapCenter(userLocation);
-      // set Icon
       setMapZoom(15);
       return;
     }

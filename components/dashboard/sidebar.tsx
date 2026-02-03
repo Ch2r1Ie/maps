@@ -204,7 +204,7 @@ export function LocationsSidebar({
       </SidebarContent>
 
       <SidebarFooter>
-        <Button variant="outline">Upgrade Plan</Button>
+        <Button size="sm">Upgrade To Pro</Button>
 
         <DropdownMenu>
           <DropdownMenuTrigger>
