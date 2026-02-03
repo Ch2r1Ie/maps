@@ -509,7 +509,7 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
                         : "border-primary bg-accent/30"
                     )}
                   >
-                    <div className="p-4 ">
+                    <div className="p-4">
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex items-start gap-3">
                           <div
@@ -600,6 +600,48 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
                             {formatDate(location.createdAt)}
                           </span>
                         </div>
+                      </div>
+
+                      {/* <Carousel
+                        opts={{
+                          align: "start",
+                          dragFree: true,
+                        }}
+                        className="w-full mb-4"
+                      >
+                        <CarouselContent className="-ml-2">
+                          {mockImages.map((img, index) => (
+                            <CarouselItem
+                              key={index}
+                              className="basis-1/2 pl-2 sm:basis-1/3 md:basis-1/4"
+                            >
+                              <div className="aspect-square overflow-hidden rounded-md border">
+                                <img
+                                  src={img}
+                                  alt={location.name}
+                                  className="h-full w-full object-cover"
+                                  draggable={false}
+                                />
+                              </div>
+                            </CarouselItem>
+                          ))}
+                        </CarouselContent>
+                      </Carousel> */}
+
+                      <div className="w-full mb-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                        {mockImages.map((img, index) => (
+                          <div
+                            key={index}
+                            className="aspect-square overflow-hidden rounded-md border"
+                          >
+                            <img
+                              src={img}
+                              alt={location.name}
+                              className="h-full w-full object-cover"
+                              draggable={false}
+                            />
+                          </div>
+                        ))}
                       </div>
 
                       {location.tags.length > 0 && (

@@ -90,40 +90,14 @@ export function LocationsSidebar({
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader className="px-2.5 py-3">
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            render={
-              <button className="flex items-center gap-2.5 w-full hover:bg-sidebar-accent rounded-md p-1 -m-1 transition-colors shrink-0">
-                <div className="flex size-7 items-center justify-center rounded-lg bg-foreground text-background shrink-0">
-                  <HugeiconsIcon icon={Location01Icon} className="size-4" />
-                </div>
-                <div className="flex items-center gap-1 group-data-[collapsible=icon]:hidden">
-                  <span className="text-sm font-medium">Square UI - Maps</span>
-                  {/* <HugeiconsIcon
-                    icon={UnfoldMoreIcon}
-                    className="size-3 text-muted-foreground"
-                  /> */}
-                </div>
-              </button>
-            }
-          />
-
-          <DropdownMenuContent align="start" className="w-56">
-            {/* <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <HugeiconsIcon icon={Settings01Icon} className="size-4" />
-                <span>Settings</span>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem className="text-destructive focus:text-destructive">
-                <HugeiconsIcon icon={Logout01Icon} className="size-4" />
-                <span>Log out</span>
-              </DropdownMenuItem>
-            </DropdownMenuGroup> */}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <button className="flex items-center gap-2.5 w-full hover:bg-sidebar-accent rounded-md p-1 -m-1 transition-colors shrink-0">
+          <div className="flex size-7 items-center justify-center rounded-lg bg-foreground text-background shrink-0">
+            <HugeiconsIcon icon={Location01Icon} className="size-4" />
+          </div>
+          <div className="flex items-center gap-1 group-data-[collapsible=icon]:hidden">
+            <span className="text-sm font-medium">Square UI - Maps</span>
+          </div>
+        </button>
       </SidebarHeader>
 
       <SidebarContent className="px-2.5">
