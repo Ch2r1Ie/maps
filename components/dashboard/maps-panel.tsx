@@ -2,6 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -38,6 +43,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import * as React from "react";
 import { useMediaQuery } from "usehooks-ts";
+import mockImages from "../../mock-data/images";
 import { Badge } from "../ui/badge";
 
 type PanelMode = "all" | "favorites" | "recents";
@@ -787,6 +793,39 @@ export function MapsPanel({ mode = "all" }: MapsPanelProps) {
                       </Button>
                     </div>
                   </div>
+
+                  {mockImages?.length > 0 && (
+                    <div
+                      className="relative -mx-3 bg-muted/20 px-3"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Carousel
+                        opts={{
+                          align: "start",
+                          dragFree: true,
+                        }}
+                        className="w-full"
+                      >
+                        <CarouselContent className="-ml-2">
+                          {mockImages.map((img, index) => (
+                            <CarouselItem
+                              key={index}
+                              className="basis-1/2 pl-2 sm:basis-1/3 md:basis-1/4"
+                            >
+                              <div className="aspect-square overflow-hidden rounded-md border">
+                                <img
+                                  src={img}
+                                  alt={location.name}
+                                  className="h-full w-full object-cover"
+                                  draggable={false}
+                                />
+                              </div>
+                            </CarouselItem>
+                          ))}
+                        </CarouselContent>
+                      </Carousel>
+                    </div>
+                  )}
 
                   {location.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1">
